@@ -2,7 +2,6 @@ import sys
 import os
 import re
 from pydub import AudioSegment
-from pathlib import Path
 import music_tag
 
 # Define necessary constants
@@ -70,7 +69,7 @@ if (argument_count != NUMBER_ALLOWED_ARGUMENTS):
           + ", received " 
           + str(argument_count)
           + ").", file=sys.stderr)
-    exit(1)
+    sys.exit(1)
     
 # Check if the second argument is a valid directory
 input_directory = sys.argv[1]
@@ -83,7 +82,7 @@ except:
     print("Error: directory '" 
           + input_directory 
           + "' could not be found.", file = sys.stderr)
-    exit(1)
+    sys.exit(1)
     
 # Convert all chart folders to .mp3 files with metadata and place them in the destination folder
 for directory_item in directory_contents:
@@ -108,7 +107,7 @@ for directory_item in directory_contents:
     # Convert song to a .mp3 file
     if (audio_filepath != None):
         original_audio = AudioSegment.from_ogg(audio_filepath)
-        audio_filename = Path(audio_filepath).stem
+        audio_filename = os.path.splitext(os.path.basename(audio_filepath))[0]
         print("Current Audio File: " + audio_filename)
 
         # Export converted audio to destination filepath
