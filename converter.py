@@ -38,11 +38,11 @@ class ChartMetadata:
                     metadata['artist'] = artist_match.group(1).strip()
 
             # Extracting jacket image
-            jacket_match = re.search(r'#JACKET:(.*?);', content)
+            jacket_match = re.search(r'#BANNER:(.*?);', content)
             if jacket_match:
                 metadata['jacket'] = jacket_match.group(1).strip()
             else:
-                jacket_match = re.search(r'#JACKET:(.*?);', content)
+                jacket_match = re.search(r'#BANNER:(.*?);', content)
                 if jacket_match:
                     metadata['jacket'] = jacket_match.group(1).strip()
         
@@ -95,7 +95,7 @@ for directory_item in directory_contents:
     try:
         directory_item_contents = os.listdir(input_directory + "/" + directory_item)
     except:
-        print(directory_item + " is not a directory, moving to the next file.")
+        print(directory_item + " is not a directory, moving on to the next folder.")
     else:
         # Search the directory for the necessary files
         for chart_directory_item in directory_item_contents:
@@ -112,7 +112,7 @@ for directory_item in directory_contents:
         print("Current Audio File: " + audio_filename)
 
         # Export converted audio to destination filepath
-        converted_audio_filepath = destination_directory + "/" + audio_filename + ".mp3"
+        converted_audio_filepath = destination_directory + audio_filename + ".mp3"
         original_audio.export(converted_audio_filepath, format="mp3")
 
         # Perform necessary metadata editions
@@ -123,7 +123,5 @@ for directory_item in directory_contents:
         try:
             converted_audio["artwork"] = open(chart.get_song_jacket(), "rb").read()
         except:
-            print("Unable to convert image for " 
-                  + chart_filepath 
-                  + ", moving on to the next folder.", file=sys.stderr)
+            print("There was an issue opening the banner file, moving on to the next folder.", file=sys.stderr)
         converted_audio.save()
