@@ -101,7 +101,7 @@ for directory_item in directory_contents:
             item_filepath = input_directory + "/" + directory_item + "/" + chart_directory_item
             if (".ogg" in chart_directory_item):
                 audio_filepath = item_filepath
-            elif (".ssc" in chart_directory_item):
+            elif (".ssc" in chart_directory_item or ".sm" in chart_directory_item):
                 chart_filepath = item_filepath
 
     # Convert song to a .mp3 file
